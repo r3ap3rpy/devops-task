@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: formlabs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: formlabs
+  template:
+    metadata:
+      labels:
+        app: formlabs
+    spec:
+      containers:
+        - name: formlabs
+          image: r3ap3rpy/formlabs
+          ports:
+            - containerPort: 8080
