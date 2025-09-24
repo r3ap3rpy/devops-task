@@ -1,0 +1,23 @@
+name: Lint Kubernetes Manifests
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'k8s/**'
+jobs:
+  kube-linter:
+    name: Static analysis with kube-linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install kube-linter
+        run: |
+          curl -sSL https://github.com/stackrox/kube-linter/releases/latest/download/kube-linter-linux.tar.gz \
+          | tar -xz -C /usr/local/bin kube-linter
+
+      - name: Run kube-linter on manifests
+        run: |
+          kube-linter lint k8s
