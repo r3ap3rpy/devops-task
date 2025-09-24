@@ -3,6 +3,7 @@ WORKDIR /app
 COPY helloapp/ .
 RUN pip install -r requirements.txt
 RUN pytest -vvv
+RUN python -m unittest 
 
 FROM python:3.12-slim
 WORKDIR /app

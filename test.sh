@@ -2,4 +2,6 @@
 
 # Assumes an existing virtualenv at .venv
 source .venv/bin/activate
-python -m unittest helloapp.test
+cd docker
+python -m unittest helloapp.tests.test -vvv
+python -m pytest helloapp/tests/
