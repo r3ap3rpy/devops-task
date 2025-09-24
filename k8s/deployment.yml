@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: formlabs
+  namespace: formlabs
 spec:
   replicas: 3
   selector:
@@ -12,8 +13,29 @@ spec:
       labels:
         app: formlabs
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: formlabs
+              topologyKey: "kubernetes.io/hostname"
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000 
+        supplementalGroups: [4000]
       containers:
         - name: formlabs
-          image: r3ap3rpy/formlabs
+          image: r3ap3rpy/formlabs:final
           ports:
             - containerPort: 8080
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
