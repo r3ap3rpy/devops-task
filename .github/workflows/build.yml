@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Ensure script is executable
-        run: chmod +x scripts/build.sh
+        run: chmod +x build.sh
       - name: Run bash script
         run: ./build.sh
 
