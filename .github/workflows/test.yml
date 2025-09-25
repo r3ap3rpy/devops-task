@@ -1,0 +1,23 @@
+name: Run test.sh if changed or on demand
+
+on:
+  push:
+    paths:
+      - 'test.sh'
+  workflow_dispatch:
+
+jobs:
+  execute-script:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Ensure scripts are executable
+        run: | 
+          chmod +x build.sh
+          chmod +x test.sh
+      - name: Prepare environment with build.sh
+        run: ./build.sh
+      - name: Run test.sh
+        run: ./test.sh
+
