@@ -1,0 +1,28 @@
+name: Run run.sh if changed or on demand
+
+on:
+  push:
+    paths:
+      - 'run.sh'
+  workflow_dispatch:
+
+jobs:
+  execute-script:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Ensure scripts are executable
+        run: | 
+          chmod +x build.sh
+          chmod +x test.sh
+          chmod +x run.sh
+      - name: Prepare environment with build.sh
+        run: ./build.sh
+      - name: Run test.sh
+        run: ./test.sh
+      - name: Run run.sh with 20 seconds timeout
+        run: |
+           timeout 20s ./run.sh &
+           curl http://localhost:8080
+
