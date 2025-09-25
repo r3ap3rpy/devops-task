@@ -24,5 +24,7 @@ jobs:
       - name: Run run.sh with 20 seconds timeout
         run: |
            timeout 20s ./run.sh &
+           WEBAPP=$!
+           sleep 5
            curl http://0.0.0.0:8080
-
+           wait $WEBAPP || true
